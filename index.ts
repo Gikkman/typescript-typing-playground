@@ -47,7 +47,7 @@ interface RequirePrimitiveInterface<T extends NoFunctions<T>> {
   someFunction<K extends keyof T>(key: K, value?: T[K]): void;
 }
 type requirePrimitiveInterfaceImpl1 = RequirePrimitiveInterface<Prim>;  
-type requirePrimitiveInterfaceImpl2 = RequirePrimitiveInterface<Mixed>;  // <--- Error, parts of interface doesn't map to functions
+type requirePrimitiveInterfaceImpl2 = RequirePrimitiveInterface<Mixed>;  // <--- Error, parts of interface map to functions
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Interface extraction
