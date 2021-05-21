@@ -47,7 +47,7 @@ interface RequirePrimitiveInterface<T extends NoFunctions<T>> {
   someFunction<K extends keyof T>(key: K, value?: T[K]): void;
 }
 type requirePrimitiveInterfaceImpl1 = RequirePrimitiveInterface<Prim>;  
-type requirePrimitiveInterfaceImpl2 = RequirePrimitiveInterface<Mixed>;  // <--- Error, parts of interface map to functions
+type requirePrimitiveInterfaceImpl2 = RequirePrimitiveInterface<Mixed>;  // <--- Error, parts of interface doesn't map to functions
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Interface extraction
@@ -71,14 +71,14 @@ type remappingKeys = RemappingKeysMatchingType<Mixed, Function>;
 interface ExtractFunctionsInterface<T> {
   someFunctions<
     V extends ReturnType<T[K]>, 
-    K extends KeysMatchingType<T, Function> = KeysMatchingType<T, Function>
+    K extends KeysMatchingType<T, Function>
   >(key: K, val: V): void;
 }
 
 const ExtractedMixedImpl: ExtractFunctionsInterface<Mixed> = {
   someFunctions<
     V extends ReturnType<Mixed[K]>, 
-    K extends KeysMatchingType<Mixed, Function> = KeysMatchingType<Mixed, Function>
+    K extends KeysMatchingType<Mixed, Function>
   >(key: K, val: V) { }
 };
 ExtractedMixedImpl.someFunctions("g", 3); // <-- Check what values this method accepts
@@ -86,10 +86,10 @@ ExtractedMixedImpl.someFunctions("g", 3); // <-- Check what values this method a
 const ExtractedPrimImpl: ExtractFunctionsInterface<Prim> = {
   someFunctions<
     V extends ReturnType<Prim[K]>, 
-    K extends KeysMatchingType<Prim, Function> = KeysMatchingType<Prim, Function>
+    K extends KeysMatchingType<Prim, Function>
   >(key: K, val:V) { }
 };
-ExtractedPrimImpl.someFunctions(); // <-- This method can't be called since Prim has no function properties
+ExtractedPrimImpl.someFunctions() // <-- This method can't be called since Prim has no function properties
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Interface manipulation
